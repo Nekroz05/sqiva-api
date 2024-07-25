@@ -9,16 +9,20 @@ class AssignRoleService
 {
     public function assignRoleToEmployee($employee_id, $roles)
     {
-        try {
+        try
+        {
             DB::beginTransaction();
 
             $employee = Employee::find($employee_id);
 
-            foreach ($roles as $key => $role) {
+            foreach ($roles as $key => $role)
+            {
                 $role = DB::table('roles')->where('name', '=', $role)->first();
                 $employee->assignRole($role->name);
             }
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err)
+        {
             DB::rollback();
             throw $err;
         }

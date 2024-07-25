@@ -20,7 +20,8 @@ class EmployeeController extends Controller
 {
     public function index(ReadEmployeeService $readEmployeeService)
     {
-        try {
+        try
+        {
             $employees = $readEmployeeService->findAll();
 
             return new EmployeeResource(
@@ -28,11 +29,15 @@ class EmployeeController extends Controller
                 'Data found',
                 200
             );
-        } catch (DataNotFoundException $err) {
+        }
+        catch (DataNotFoundException $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
@@ -41,7 +46,8 @@ class EmployeeController extends Controller
 
     public function insert(InsertEmployeeRequest $request, InsertEmployeeService $insertEmployeeService)
     {
-        try {
+        try
+        {
             $newEmployee = $insertEmployeeService->addEmployee(
                 $request->first_name,
                 $request->last_name,
@@ -58,11 +64,15 @@ class EmployeeController extends Controller
                 'Employee data created',
                 200
             );
-        } catch (DuplicateDataException $err) {
+        }
+        catch (DuplicateDataException $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
@@ -71,7 +81,8 @@ class EmployeeController extends Controller
 
     public function update($id, UpdateEmployeeRequest $request, UpdateEmployeeService $updateEmployeeService)
     {
-        try {
+        try
+        {
             $updatedEmployee = $updateEmployeeService->updateEmployee(
                 $id,
                 $request->first_name,
@@ -89,11 +100,15 @@ class EmployeeController extends Controller
                 'Employee data updated',
                 200
             );
-        } catch (DataNotFoundException $err) {
+        }
+        catch (DataNotFoundException $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
@@ -102,7 +117,8 @@ class EmployeeController extends Controller
 
     public function delete(DeleteEmployeeRequest $request, DeleteEmployeeService $deleteEmployeeService)
     {
-        try {
+        try
+        {
             $deletedEmployee = $deleteEmployeeService->deleteEmployee($request->id);
 
             return new EmployeeResource(
@@ -110,11 +126,15 @@ class EmployeeController extends Controller
                 'Employee data deleted',
                 200
             );
-        } catch (DataNotFoundException $err) {
+        }
+        catch (DataNotFoundException $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);
-        } catch (\Throwable $err) {
+        }
+        catch (\Throwable $err)
+        {
             return response()->json([
                 'error' => $err->getMessage()
             ], 400);

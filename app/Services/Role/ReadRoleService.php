@@ -16,14 +16,16 @@ class ReadRoleService
             ->get();
 
         $roles = $roles->groupBy('role_name')
-            ->map(function ($items, $key) {
+            ->map(function ($items, $key)
+            {
                 return [
                     'role_name' => $items[0]->role_name,
                     'permissions' => $items->pluck('permission')->toArray()
                 ];
             })->values()->toArray();
 
-        if (!$roles) {
+        if (!$roles)
+        {
             throw new DataNotFoundException('Roles data not found');
         }
 

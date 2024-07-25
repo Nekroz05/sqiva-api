@@ -12,14 +12,16 @@ class UpdateRoleService
 {
     public function updateRole($id, $name, $permissions)
     {
-        try {
+        try
+        {
             DB::beginTransaction();
 
             $role = DB::table('roles');
 
             $role->where('id', '=', $id);
 
-            if (!$role->first()) {
+            if (!$role->first())
+            {
                 throw new DataNotFoundException('Role does not exist');
             }
 
@@ -28,13 +30,14 @@ class UpdateRoleService
                 ['id', '!=', $id],
             ])->first();
 
-            if ($duplicateRole) {
+            if ($duplicateRole)
+            {
                 throw new DuplicateDataException('Role name must be unique');
             }
 
             $role->update([
                 'name' => $name,
-                'guard_name' => 'api'
+                'guard_name' => 'web'
             ]);
 
             $updatedRole = Role::find($id);
@@ -45,7 +48,9 @@ class UpdateRoleService
             //     $permission = Permission::find($value);
             //     $updatedRole->givePermissionTo($permission);
             // }
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err)
+        {
             DB::rollback();
             throw $err;
         }

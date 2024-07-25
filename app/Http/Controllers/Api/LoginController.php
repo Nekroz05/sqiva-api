@@ -12,10 +12,12 @@ class LoginController extends Controller
 {
     public function login(Request $request, ReadEmployeeService $employee)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password]))
+        {
             $loggedInEmployee = $employee->findEmployeeByEmail($request->email);
 
-            if ($loggedInEmployee) {
+            if ($loggedInEmployee)
+            {
                 $authUser = Auth::user();
                 /**
                  * @var \App\Models\User $authUser
@@ -35,7 +37,9 @@ class LoginController extends Controller
                     200
                 );
             }
-        } else {
+        }
+        else
+        {
             return response()->json([
                 'error' => 'Credential failed'
             ], 401);
@@ -48,7 +52,7 @@ class LoginController extends Controller
         /**
          * @var \App\Models\User $authUser
          */
-        $authUser->currentAccessToken()->delete();;
+        $authUser->currentAccessToken()->delete();
         Auth::logout();
 
         return new LoginResource(

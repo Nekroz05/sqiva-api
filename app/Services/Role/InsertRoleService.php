@@ -11,29 +11,34 @@ class InsertRoleService
 {
     public function addRole($name, $permissions)
     {
-        try {
+        try
+        {
             DB::beginTransaction();
 
             $role = DB::table('roles');
 
             $duplicateRole = $role->where('name', '=', $name)->first();
 
-            if ($duplicateRole) {
+            if ($duplicateRole)
+            {
                 throw new DuplicateDataException('Role name must be unique');
             }
 
             $role->insert([
                 'name' => $name,
-                'guard_name' => 'api'
+                'guard_name' => 'web'
             ]);
 
             $createdRole = Role::where('name', '=', $name)->first();
 
-            foreach ($permissions as $key => $value) {
+            foreach ($permissions as $key => $value)
+            {
                 $permission = Permission::find($value);
                 $createdRole->givePermissionTo($permission);
             }
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err)
+        {
             DB::rollback();
             throw $err;
         }
